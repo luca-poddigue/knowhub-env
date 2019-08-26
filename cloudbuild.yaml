@@ -5,7 +5,7 @@ steps:
     args:
       - '-c'
       - |
-        echo 'this is a test trigger'
+        cat test.txt
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=knowhub-test'
