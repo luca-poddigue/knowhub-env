@@ -1,10 +1,11 @@
 steps:
   - name: 'gcr.io/cloud-builders/mvn'
     id: test
-    entrypoint: bash
+    entrypoint: 'bash'
     args:
-      - 'echo'
-      - 'this is a test trigger'
+      - '-c'
+      - |
+        echo 'this is a test trigger'
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=knowhub-test'
