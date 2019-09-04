@@ -6,6 +6,6 @@ steps:
       - |
         get po -n knowhub
     env:
-      - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
+      - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
       - 'CLOUDSDK_CONTAINER_CLUSTER=knowhub'
       - 'CLOUDSDK_CORE_PROJECT=endless-tractor-248005'
