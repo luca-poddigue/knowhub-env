@@ -4,7 +4,7 @@ steps:
     args:
       - '-c'
       - |
-        helm init --client-only
+        get po -n knowhub
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=knowhub'
