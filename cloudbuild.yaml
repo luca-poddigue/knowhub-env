@@ -1,7 +1,12 @@
 steps:
   - name: 'gcr.io/cloud-builders/kubectl'
     id: Deploy to GKE cluster
-    args: ['get', 'pod', '-n', 'knowhub']
+    entrypoint: bash
+    args:
+      - '-c'
+      - |
+        bash /builder/kubectl.bash && \
+        kubectl get po -n knowhub
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
       - 'CLOUDSDK_CONTAINER_CLUSTER=knowhub'
