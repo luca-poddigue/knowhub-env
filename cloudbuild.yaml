@@ -1,12 +1,11 @@
 steps:
-  - name: 'gcr.io/cloud-builders/mvn'
-    id: test
-    entrypoint: 'bash'
+  - name: 'gcr.io/cloud-builders/kubectl'
+    id: Deploy to GKE cluster
     args:
       - '-c'
       - |
-        cat test.txt
+        helm init --client-only
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
-      - 'CLOUDSDK_CONTAINER_CLUSTER=knowhub-test'
-      - 'CLOUDSDK_CORE_PROJECT=knowhub-new'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=knowhub'
+      - 'CLOUDSDK_CORE_PROJECT=endless-tractor-248005'
