@@ -6,7 +6,8 @@ steps:
       - '-c'
       - |
         bash /builder/kubectl.bash version && \
-        kubectl get po -n knowhub
+        kubectl get po -n knowhub && \
+        snap install helm --classic
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
       - 'CLOUDSDK_CONTAINER_CLUSTER=knowhub'
