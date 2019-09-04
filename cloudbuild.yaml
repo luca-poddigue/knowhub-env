@@ -7,7 +7,10 @@ steps:
       - |
         bash /builder/kubectl.bash version && \
         kubectl get po -n knowhub && \
-        snap install helm --classic
+        curl -4 -L https://get.helm.sh/helm-v2.14.3-linux-amd64.tar.gz -o /builder/helm.tar.gz && \
+        tar -zxvf /builder/helm.tar.gz -C /builder && \
+        mv /builder/linux-amd64/helm /usr/local/bin/helm
+        helm init --client-only
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
       - 'CLOUDSDK_CONTAINER_CLUSTER=knowhub'
