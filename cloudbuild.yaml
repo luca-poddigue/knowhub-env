@@ -5,7 +5,7 @@ steps:
     args:
       - '-c'
       - |
-        bash /builder/kubectl.bash && \
+        bash /builder/kubectl.bash version && \
         kubectl get po -n knowhub
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
