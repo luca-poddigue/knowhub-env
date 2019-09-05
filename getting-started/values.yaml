@@ -4,11 +4,6 @@
 
 replicaCount: 1
 
-image:
-  repository: eu.gcr.io/knowhub-new/quarkus-tutorial
-  tag: 7a0e258
-  pullPolicy: IfNotPresent
-
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
