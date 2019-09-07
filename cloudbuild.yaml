@@ -22,8 +22,7 @@ steps:
         tar -zxvf /builder/helm.tar.gz -C /builder && \
         mv /builder/linux-amd64/helm /usr/local/bin/helm
         helm init --client-only && \
-        cd getting-started && \
-        helm upgrade getting-started . --install --namespace knowhub -f images.yaml -f values.yaml --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem
+        helm upgrade knowhub . --install --namespace knowhub -f images.yaml -f values.yaml --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
       - 'CLOUDSDK_CONTAINER_CLUSTER=knowhub'
