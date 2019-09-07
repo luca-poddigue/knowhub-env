@@ -7,9 +7,9 @@ steps:
     args:
       - '-c'
       - |
-        gcloud kms decrypt --ciphertext-file=helm-ssh/ca.pem.enc --plaintext-file=helm-ssh/ca.pem --location=global --keyring=build --key=helm-ssh && \
-        gcloud kms decrypt --ciphertext-file=helm-ssh/cert.pem.enc --plaintext-file=helm-ssh/cert.pem --location=global --keyring=build --key=helm-ssh && \
-        gcloud kms decrypt --ciphertext-file=helm-ssh/key.pem.enc --plaintext-file=helm-ssh/key.pem --location=global --keyring=build --key=helm-ssh
+        gcloud kms decrypt --ciphertext-file=.helm/ca.pem.enc --plaintext-file=.helm/ca.pem --location=global --keyring=build --key=helm-ssh && \
+        gcloud kms decrypt --ciphertext-file=.helm/cert.pem.enc --plaintext-file=.helm/cert.pem --location=global --keyring=build --key=helm-ssh && \
+        gcloud kms decrypt --ciphertext-file=.helm/key.pem.enc --plaintext-file=.helm/key.pem --location=global --keyring=build --key=helm-ssh
   - name: 'gcr.io/cloud-builders/kubectl'
     id: Deploy to GKE cluster
     entrypoint: bash
@@ -23,7 +23,7 @@ steps:
         mv /builder/linux-amd64/helm /usr/local/bin/helm
         helm init --client-only && \
         cd getting-started && \
-        helm upgrade getting-started . --install --namespace knowhub -f images.yaml -f values.yaml --tls --tls-ca-cert ../helm-ssh/ca.pem --tls-cert ../helm-ssh/cert.pem --tls-key ../helm-ssh/key.pem
+        helm upgrade getting-started . --install --namespace knowhub -f images.yaml -f values.yaml --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
       - 'CLOUDSDK_CONTAINER_CLUSTER=knowhub'
