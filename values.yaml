@@ -8,9 +8,12 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+projectId: "endless-tractor-248005"
+
 service:
   type: NodePort
-  port: 8080
+  httpPort: 8080
+  backendPort: 8081
 
 ingress:
   enabled: false
