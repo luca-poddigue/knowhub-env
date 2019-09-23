@@ -12,7 +12,7 @@ projectId: "endless-tractor-248005"
 
 service:
   type: LoadBalancer
-  httpPort: 8080
+  httpPort: 80
   backendPort: 8081
 
 ingress:
