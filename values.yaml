@@ -11,7 +11,7 @@ fullnameOverride: ""
 projectId: "endless-tractor-248005"
 
 service:
-  type: NodePort
+  type: LoadBalancer
   httpPort: 8080
   backendPort: 8081
 
