@@ -7,9 +7,9 @@ metadata:
 spec:
     type: {{ .Values.service.type }}
     ports:
-        - port: {{ .Values.service.httpPort }}
+        - port: {{ .Values.service.sslPort }}
           protocol: TCP
-          name: http
+          name: https
     selector:
         app.kubernetes.io/name: {{ include "getting-started.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
