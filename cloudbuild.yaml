@@ -20,12 +20,12 @@ steps:
         bash /builder/kubectl.bash version && \
         curl -4 -L https://get.helm.sh/helm-v${_HELM_VERSION}-linux-amd64.tar.gz -o /builder/helm.tar.gz && \
         tar -zxvf /builder/helm.tar.gz -C /builder && \
-        mv /builder/linux-amd64/helm /usr/local/bin/helm
+        mv /builder/linux-amd64/helm /usr/local/bin/helm && \
+        bash helm init --client-only && \
+        cd knowhub && \
         if [ "$BRANCH_NAME" != "${_MASTER_BRANCH}" ]; then \
           helm upgrade knowhub . --install --namespace knowhub --debug --dry-run -f images.yaml -f values.yaml --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem ; \
         else \
-          bash helm init --client-only && \
-          cd knowhub && \
           helm upgrade knowhub . --install --namespace knowhub -f images.yaml -f values.yaml --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem ; \
         fi
     env:
