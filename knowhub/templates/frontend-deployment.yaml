@@ -1,25 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: {{ include "getting-started.fullname" . }}
+    name: {{ include "knowhub.frontend.name" . }}
     labels:
-        {{ include "getting-started.labels" . | indent 4 }}
+        {{- include "knowhub.frontend.labels" . | nindent 8 }}
 spec:
-    replicas: {{ .Values.replicaCount }}
+    replicas: {{ .Values.frontend.replicaCount }}
     selector:
         matchLabels:
-            app.kubernetes.io/name: {{ include "getting-started.name" . }}
-            app.kubernetes.io/instance: {{ .Release.Name }}
+            {{- include "knowhub.backend.matchLabels" . | nindent 12 }}
     template:
         metadata:
             labels:
-                app.kubernetes.io/name: {{ include "getting-started.name" . }}
-                app.kubernetes.io/instance: {{ .Release.Name }}
+                {{- include "knowhub.backend.matchLabels" . | nindent 16 }}
         spec:
-                {{- with .Values.imagePullSecrets }}
-            imagePullSecrets:
-                {{- toYaml . | nindent 8 }}
-                {{- end }}
             volumes:
                 - name: nginx-ssl
                   secret:

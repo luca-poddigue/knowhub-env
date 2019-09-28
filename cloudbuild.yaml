@@ -1,5 +1,6 @@
 substitutions:
   _HELM_VERSION: 2.14.3
+  _MASTER_BRANCH: master
 steps:
   - id: 'Decrypt Helm SSH keys'
     name: 'gcr.io/cloud-builders/gcloud'
@@ -16,13 +17,17 @@ steps:
     args:
       - '-c'
       - |
-        bash /builder/kubectl.bash version && \
-        kubectl get po -n knowhub && \
-        curl -4 -L https://get.helm.sh/helm-v${_HELM_VERSION}-linux-amd64.tar.gz -o /builder/helm.tar.gz && \
-        tar -zxvf /builder/helm.tar.gz -C /builder && \
-        mv /builder/linux-amd64/helm /usr/local/bin/helm
-        helm init --client-only && \
-        helm upgrade knowhub . --install --namespace knowhub -f images.yaml -f values.yaml --tls --tls-ca-cert .helm/ca.pem --tls-cert .helm/cert.pem --tls-key .helm/key.pem
+        if [ "$BRANCH_NAME" == "${_MASTER_BRANCH}" ]; then \
+          helm upgrade knowhub --install --debug --dry-run --tls -f values.yaml -f images.yaml . ; \
+        else \
+          bash /builder/kubectl.bash version && \
+          curl -4 -L https://get.helm.sh/helm-v${_HELM_VERSION}-linux-amd64.tar.gz -o /builder/helm.tar.gz && \
+          tar -zxvf /builder/helm.tar.gz -C /builder && \
+          mv /builder/linux-amd64/helm /usr/local/bin/helm
+          helm init --client-only && \
+          cd knowhub && \
+          helm upgrade knowhub . --install --namespace knowhub -f images.yaml -f values.yaml --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem ; \
+        fi
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
       - 'CLOUDSDK_CONTAINER_CLUSTER=knowhub'

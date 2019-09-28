@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: {{ include "knowhub.backend.name" . }}
+    labels:
+        {{- include "knowhub.backend.labels" . | nindent 8 }}
+spec:
+    replicas: {{ .Values.backend.replicaCount }}
+    selector:
+        matchLabels:
+            {{- include "knowhub.backend.matchLabels" . | nindent 12 }}
+    template:
+        metadata:
+            labels:
+                {{- include "knowhub.backend.matchLabels" . | nindent 16 }}
+        spec:
+            volumes:
+                - name: nginx-ssl
+                  secret:
+                      secretName: nginx-ssl
+            containers:
+                - name: {{ .Chart.Name }}
+                  image: "eu.gcr.io/knowhub-new/quarkus-tutorial:{{ index .Values "tag" "quarkus-tutorial" }}"
+                  imagePullPolicy: IfNotPresent
+                  ports:
+                      - name: backend
+                        containerPort: {{ .Values.service.backendPort }}
+                        protocol: TCP
+                  livenessProbe:
+                      httpGet:
+                          path: /health
+                          port: backend
+                  readinessProbe:
+                      httpGet:
+                          path: /health
+                          port: backend
+                        {{- with .Values.resources }}
+                  resources:
+                        {{- toYaml .Values.resources | nindent 12 }}
+                    {{- end }}
+                - name: esp
+                  image: gcr.io/endpoints-release/endpoints-runtime:1
+                  args: [
+                      "--ssl_port", "{{ .Values.service.sslPort}}",
+                      "--backend", "127.0.0.1:{{ .Values.service.backendPort}}",
+                      "--service", "app.endpoints.{{ .Values.projectId}}.cloud.goog",
+                      "--rollout_strategy", "managed"
+                  ]
+                  ports:
+                      - containerPort: {{ .Values.service.sslPort}}
+                  volumeMounts:
+                      - mountPath: /etc/nginx/ssl
+                        name: nginx-ssl
+                        readOnly: true
+                {{- with .Values.nodeSelector }}
+            nodeSelector:
+                {{- toYaml . | nindent 8 }}
+                {{- end }}
+                {{- with .Values.affinity }}
+            affinity:
+                {{- toYaml . | nindent 8 }}
+                {{- end }}
+                {{- with .Values.tolerations }}
+            tolerations:
+            {{- toYaml . | nindent 8 }}
+        {{- end }}
