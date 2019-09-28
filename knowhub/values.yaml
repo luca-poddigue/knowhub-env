@@ -1,12 +1,17 @@
-# Default values for getting-started.
+# Default values for knowhub.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
 
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+
+backend:
+  name: "backend"
+  replicaCount: 1
+
+frontend:
+  name: "frontend"
+  replicaCount: 1
+
 
 projectId: "endless-tractor-248005"
 

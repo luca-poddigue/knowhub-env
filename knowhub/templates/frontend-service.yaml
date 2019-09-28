@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: {{ include "knowhub.frontend.name" . }}
+    labels:
+        {{- include "knowhub.frontend.labels" . | nindent 8 }}
+spec:
+    type: {{ .Values.service.type }}
+    ports:
+        - port: {{ .Values.service.sslPort }}
+          protocol: TCP
+          name: https
+    selector:
+        {{- include "knowhub.frontend.matchLabels" . | nindent 8 }}
