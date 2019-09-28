@@ -17,7 +17,7 @@ steps:
     args:
       - '-c'
       - |
-        if [ "$BRANCH_NAME" == "${_MASTER_BRANCH}" ]; then \
+        if [ "$BRANCH_NAME" != "${_MASTER_BRANCH}" ]; then \
           helm upgrade knowhub --install --debug --dry-run --tls -f values.yaml -f images.yaml . ; \
         else \
           bash /builder/kubectl.bash version && \
