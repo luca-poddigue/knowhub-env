@@ -15,9 +15,9 @@ spec:
                 {{- include "knowhub.backend.matchLabels" . | nindent 16 }}
         spec:
             volumes:
-                - name: nginx-ssl
+                - name: secret-nginx
                   secret:
-                      secretName: nginx-ssl
+                      secretName: {{ include "knowhub.backend.name" . }}-nginx
             containers:
                 - name: {{ .Chart.Name }}
                   image: "eu.gcr.io/knowhub-new/quarkus-tutorial:{{ index .Values "tag" "quarkus-tutorial" }}"
@@ -50,7 +50,7 @@ spec:
                       - containerPort: {{ .Values.service.sslPort}}
                   volumeMounts:
                       - mountPath: /etc/nginx/ssl
-                        name: nginx-ssl
+                        name: secret-nginx
                         readOnly: true
                 {{- with .Values.nodeSelector }}
             nodeSelector:
