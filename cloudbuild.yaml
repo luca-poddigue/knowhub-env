@@ -22,7 +22,7 @@ steps:
         tar -zxvf /builder/helm.tar.gz -C /builder && \
         mv /builder/linux-amd64/helm /usr/local/bin/helm
         if [ "$BRANCH_NAME" != "${_MASTER_BRANCH}" ]; then \
-          bash helm upgrade knowhub --install --debug --dry-run --tls -f values.yaml -f images.yaml . ; \
+          helm upgrade knowhub . --install --namespace knowhub --debug --dry-run -f images.yaml -f values.yaml --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem ; \
         else \
           bash helm init --client-only && \
           cd knowhub && \
