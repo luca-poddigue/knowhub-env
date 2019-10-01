@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-    name: "{{ include "knowhub.backend.name" . }}-test-connection"
+    name: "{{ include "knowhub.name" . }}-test-connection"
     labels:
-        {{- include "knowhub.backend.labels" . | nindent 8 }}
+        {{- include "knowhub.labels" . | nindent 8 }}
     annotations:
         "helm.sh/hook": test-success
 spec:
@@ -11,5 +11,5 @@ spec:
         - name: wget
           image: busybox
           command: ['wget']
-          args:  ['{{ include "knowhub.backend.name" . }}:{{ .Values.service.port }}']
+          args:  ['{{ include "knowhub.name" . }}:{{ .Values.service.port }}']
     restartPolicy: Never

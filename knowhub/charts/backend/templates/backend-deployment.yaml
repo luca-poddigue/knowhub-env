@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: {{ include "knowhub.frontend.name" . }}
+    name: {{ include "knowhub.name" . }}
     labels:
-        {{- include "knowhub.frontend.labels" . | nindent 8 }}
+        {{- include "knowhub.labels" . | nindent 8 }}
 spec:
-    replicas: {{ .Values.frontend.replicaCount }}
+    replicas: {{ .Values.replicaCount }}
     selector:
         matchLabels:
-            {{- include "knowhub.backend.matchLabels" . | nindent 12 }}
+            {{- include "knowhub.matchLabels" . | nindent 12 }}
     template:
         metadata:
             labels:
-                {{- include "knowhub.backend.matchLabels" . | nindent 16 }}
+                {{- include "knowhub.matchLabels" . | nindent 16 }}
         spec:
             volumes:
-                - name: nginx-ssl
+                - name: secret-nginx
                   secret:
-                      secretName: nginx-ssl
+                      secretName: {{ include "knowhub.name" . }}-nginx
             containers:
                 - name: {{ .Chart.Name }}
-                  image: "eu.gcr.io/knowhub-new/quarkus-tutorial:{{ index .Values "tag" "quarkus-tutorial" }}"
+                  image: "eu.gcr.io/knowhub-new/quarkus-tutorial:{{ .Values.imageTag }}"
                   imagePullPolicy: IfNotPresent
                   ports:
                       - name: backend
@@ -36,31 +36,19 @@ spec:
                           port: backend
                         {{- with .Values.resources }}
                   resources:
-                        {{- toYaml .Values.resources | nindent 12 }}
+                        {{- toYaml .Values.resources | nindent 24 }}
                     {{- end }}
                 - name: esp
                   image: gcr.io/endpoints-release/endpoints-runtime:1
                   args: [
-                      "--ssl_port", "{{ .Values.service.sslPort}}",
+                      "--ssl_port", "{{ .Values.service.port}}",
                       "--backend", "127.0.0.1:{{ .Values.service.backendPort}}",
-                      "--service", "app.endpoints.{{ .Values.projectId}}.cloud.goog",
+                      "--service", "app.endpoints.{{ .Values.global.projectId}}.cloud.goog",
                       "--rollout_strategy", "managed"
                   ]
                   ports:
-                      - containerPort: {{ .Values.service.sslPort}}
+                      - containerPort: {{ .Values.service.port}}
                   volumeMounts:
                       - mountPath: /etc/nginx/ssl
-                        name: nginx-ssl
+                        name: secret-nginx
                         readOnly: true
-                {{- with .Values.nodeSelector }}
-            nodeSelector:
-                {{- toYaml . | nindent 8 }}
-                {{- end }}
-                {{- with .Values.affinity }}
-            affinity:
-                {{- toYaml . | nindent 8 }}
-                {{- end }}
-                {{- with .Values.tolerations }}
-            tolerations:
-            {{- toYaml . | nindent 8 }}
-        {{- end }}
