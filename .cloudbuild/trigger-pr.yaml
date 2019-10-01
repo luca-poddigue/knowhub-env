@@ -1,0 +1,13 @@
+name: PR
+description: Pull Request
+filename: .cloudbuild/cloudbuild-pr.yaml
+github:
+  name: knowhub-env
+  owner: luca-poddigue
+  pullRequest:
+    branch: .*
+id: 70877405-632f-416f-aec8-7d5160a37c68
+ignoredFiles:
+- .gitignore
+- '*.txt'
+- '*.md'

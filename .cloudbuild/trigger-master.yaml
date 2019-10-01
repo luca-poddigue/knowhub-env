@@ -1,0 +1,12 @@
+name: master
+description: Master
+filename: .cloudbuild/cloudbuild-master.yaml
+github:
+  name: knowhub-env
+  owner: luca-poddigue
+  push:
+    branch: master
+ignoredFiles:
+- .gitignore
+- '*.txt'
+- '*.md'

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: {{ include "knowhub.name" . }}
+    labels:
+        {{- include "knowhub.labels" . | nindent 8 }}
+spec:
+    replicas: {{ .Values.replicaCount }}
+    selector:
+        matchLabels:
+            {{- include "knowhub.matchLabels" . | nindent 12 }}
+    template:
+        metadata:
+            labels:
+                {{- include "knowhub.matchLabels" . | nindent 16 }}
+        spec:
+            containers:
+                - name: {{ .Chart.Name }}
+                  image: "eu.gcr.io/knowhub-new/knowhub-frontend:{{ .Values.imageTag }}"
+                  imagePullPolicy: IfNotPresent
+                  ports:
+                      - name: backend
+                        containerPort: {{ .Values.service.backendPort }}
+                        protocol: TCP
+                  livenessProbe:
+                      httpGet:
+                          path: /health
+                          port: backend
+                  readinessProbe:
+                      httpGet:
+                          path: /health
+                          port: backend
+                        {{- with .Values.resources }}
+                  resources:
+                        {{- toYaml .Values.resources | nindent 24 }}
+                        {{- end }}
