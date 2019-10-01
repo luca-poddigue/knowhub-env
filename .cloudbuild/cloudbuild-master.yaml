@@ -14,6 +14,9 @@ steps:
     id: Deploy to GKE cluster
     entrypoint: bash
     args:
+    ## It's ok to Helm install on the PR since
+    ## 1) if Helm dry run passes it doesn't meant everything is fine when deployed
+    ## 2) Helm dry run prints also secrets that remain indefinitely in logs.
       - '-c'
       - |
         bash /builder/kubectl.bash version && \
