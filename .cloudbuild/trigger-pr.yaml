@@ -1,3 +1,4 @@
+# gcloud alpha builds triggers import --source .cloudbuild/trigger-pr.yaml
 name: PR
 description: Pull Request
 filename: .cloudbuild/cloudbuild-pr.yaml
@@ -9,5 +10,6 @@ github:
 id: 70877405-632f-416f-aec8-7d5160a37c68
 ignoredFiles:
 - .gitignore
+- .cloudbuild/trigger-*.yaml
 - '*.txt'
 - '*.md'
