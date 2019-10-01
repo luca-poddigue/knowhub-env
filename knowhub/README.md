@@ -1,1 +1,1 @@
-KnowHub chart readme
+KnowHub chart readme!
