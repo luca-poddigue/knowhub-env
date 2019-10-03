@@ -24,7 +24,8 @@ steps:
         cd knowhub && \
         helm upgrade knowhub-pr-$SHORT_SHA . --install --namespace knowhub-pr-$SHORT_SHA --wait --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem && \
         helm test knowhub-pr-$SHORT_SHA --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem && \
-        helm delete knowhub-pr-$SHORT_SHA --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem
+        helm delete knowhub-pr-$SHORT_SHA --purge --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem && \
+        kubectl delete ns knowhub-pr-$SHORT_SHA
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
       - 'CLOUDSDK_CONTAINER_CLUSTER=knowhub'
