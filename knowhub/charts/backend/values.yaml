@@ -1,5 +1,5 @@
 name: "backend"
-imageTag: 9b20404
+imageTag: 1ba47bd
 
 replicaCount: 1
 service:
