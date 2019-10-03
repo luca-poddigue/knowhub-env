@@ -7,7 +7,6 @@ github:
   owner: luca-poddigue
   pullRequest:
     branch: .*
-id: 70877405-632f-416f-aec8-7d5160a37c68
 ignoredFiles:
 - .gitignore
 - .cloudbuild/trigger-*.yaml
