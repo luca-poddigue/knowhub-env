@@ -4,7 +4,6 @@ imageTag: a75c6d7
 replicaCount: 1
 service:
   type: LoadBalancer
-  backendPort: 80
   port: 80
 
 ingress:

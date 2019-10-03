@@ -8,29 +8,30 @@ spec:
     replicas: {{ .Values.replicaCount }}
     selector:
         matchLabels:
-            {{- include "knowhub.matchLabels" . | nindent 12 }}
+        {{- include "knowhub.matchLabels" . | nindent 12 }}
     template:
         metadata:
             labels:
-                {{- include "knowhub.matchLabels" . | nindent 16 }}
+            {{- include "knowhub.matchLabels" . | nindent 16 }}
         spec:
             containers:
                 - name: {{ .Chart.Name }}
                   image: "eu.gcr.io/knowhub-new/knowhub-frontend:{{ .Values.imageTag }}"
                   imagePullPolicy: IfNotPresent
                   ports:
-                      - name: backend
-                        containerPort: {{ .Values.service.backendPort }}
+                      - name: http
+                        containerPort: {{ .Values.service.port }}
                         protocol: TCP
                   livenessProbe:
                       httpGet:
                           path: /health
-                          port: backend
+                          port: http
+                      initialDelaySeconds: 30
                   readinessProbe:
                       httpGet:
                           path: /health
-                          port: backend
+                          port: http
                         {{- with .Values.resources }}
                   resources:
                         {{- toYaml .Values.resources | nindent 24 }}
-                        {{- end }}
+        {{- end }}
