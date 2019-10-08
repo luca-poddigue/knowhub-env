@@ -23,7 +23,7 @@ steps:
         helm init --client-only && \
         cd knowhub && \
         helm upgrade knowhub . --install --namespace knowhub --atomic --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem && \
-        helm test knowhub . --cleanup --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem
+        helm test knowhub --cleanup --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
       - 'CLOUDSDK_CONTAINER_CLUSTER=knowhub'
