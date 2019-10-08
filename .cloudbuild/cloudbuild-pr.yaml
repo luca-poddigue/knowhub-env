@@ -14,9 +14,6 @@ steps:
     id: Deploy to GKE cluster
     entrypoint: bash
     args:
-    ## It's ok to Helm install on the PR since
-    ## 1) if Helm dry run passes it doesn't meant everything is fine when deployed
-    ## 2) Helm dry run prints also secrets that remain indefinitely in logs.
       - '-c'
       - |
         bash /builder/kubectl.bash version && \
@@ -25,7 +22,9 @@ steps:
         mv /builder/linux-amd64/helm /usr/local/bin/helm
         helm init --client-only && \
         cd knowhub && \
-        helm upgrade knowhub . --install --namespace knowhub --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem
+        helm lint . && \
+        helm lint charts/* -f values.yaml && \
+        helm upgrade knowhub . --install --namespace knowhub --debug --dry-run --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem > log.out
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
       - 'CLOUDSDK_CONTAINER_CLUSTER=knowhub'
