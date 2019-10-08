@@ -1,4 +1,5 @@
-const { IncomingWebhook } = require('@slack/webhook');
+const {IncomingWebhook} = require('@slack/webhook');
+const humanizeDuration = require('humanize-duration');
 const url = process.env.SLACK_WEBHOOK_URL;
 
 const webhook = new IncomingWebhook(url);
@@ -28,16 +29,23 @@ const eventToBuild = (data) => {
 
 // createSlackMessage creates a message from a build object.
 const createSlackMessage = (build) => {
+    const duration = humanizeDuration(new Date(build.finishTime) - new Date(build.startTime));
+
     const message = {
-        text: `Build \`${build.id}\``,
+        text: `Branch \`${build.substitutions.BRANCH_NAME}\` of \`${build.substitutions.REPO_NAME}\`: *${build.status}*`,
         mrkdwn: true,
         attachments: [
             {
                 title: 'Build logs',
                 title_link: build.logUrl,
-                fields: [{
-                    title: 'Status',
-                    value: build.status
+                fields: [
+                {
+                    title: 'Started at',
+                    value: '<!date^'+Math.round(new Date(build.startTime).getTime()/1000)+'^{date_num} {time_secs}|invalid timestamp>'
+                },
+                {
+                    title: 'Duration',
+                    value: duration
                 }]
             }
         ]
