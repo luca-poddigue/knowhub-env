@@ -1,15 +1,11 @@
 {{/* vim: set filetype=mustache: */}}
 
-{{/*
-Create a default fully qualified name for service.
-We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
-*/}}
-{{- define "knowhub.name" -}}
-{{- printf "%s-%s" .Release.Name .Values.name | trunc 63 | trimSuffix "-" -}}
+{{- define "knowhub.certIssuerName" -}}
+{{- printf "%s-%s" .Release.Name "cert-issuer" | trunc 63 | trimSuffix "-" | quote -}}
 {{- end -}}
 
-{{- define "knowhub.matchLabels" -}}
-app.kubernetes.io/name: {{ .Values.name | quote }}
+{{- define "knowhub.dnsName" -}}
+{{- printf "%s%s" "*." .Values.dnsName | quote -}}
 {{- end -}}
 
 {{/*
@@ -23,7 +19,6 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "knowhub.labels" -}}
-{{ include "knowhub.matchLabels" . }}
 helm.sh/chart: {{ include "knowhub.chart" . }}
 app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- if .Chart.AppVersion }}

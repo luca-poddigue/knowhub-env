@@ -8,10 +8,10 @@ spec:
             - dns01:
                   provider: cloud-dns-provider
               domains:
-                  - '*.knowhub-gateway.com'
-    commonName: '*.knowhub-gateway.com'
+                  - {{ include "knowhub.dnsName"}}
+    commonName: {{ include "knowhub.dnsName"}}
     dnsNames:
-        - '*.knowhub-gateway.com'
+        - {{ include "knowhub.dnsName"}}
     issuerRef:
         kind: ClusterIssuer
         name: letsencrypt-issuer

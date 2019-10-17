@@ -1,5 +1,4 @@
 {{/* vim: set filetype=mustache: */}}
-{{/*
 
 {{/*
 Create a default fully qualified name for service.
