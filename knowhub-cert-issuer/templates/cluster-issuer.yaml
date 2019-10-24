@@ -1,10 +1,10 @@
 apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer
 metadata:
-    name: {{ include "knowhub-ingress-gateway.certIssuerName" . }}
+    name: {{ include "knowhub-cert-issuer.certIssuerName" . }}
     namespace: cert-manager
     labels:
-        {{- include "knowhub-ingress-gateway.labels" . | nindent 8 }}
+        {{- include "knowhub-cert-issuer.labels" . | nindent 8 }}
 spec:
     acme:
         # The ACME server URL
@@ -13,7 +13,7 @@ spec:
         email: {{ .Values.acmeRegistrationEmail }}
         # Name of a secret used to store the ACME account private key
         privateKeySecretRef:
-            name: {{ include "knowhub-ingress-gateway.certIssuerName" . }}
+            name: {{ include "knowhub-cert-issuer.certIssuerName" . }}
         solvers:
             - dns01:
                   clouddns:

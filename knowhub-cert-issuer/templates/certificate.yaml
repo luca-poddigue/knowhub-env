@@ -1,15 +1,16 @@
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
-    name: {{ include "knowhub-ingress-gateway.certificateName" . }}
+    name: {{ include "knowhub-cert-issuer.certificateName" . }}
     namespace: istio-system
     labels:
-        {{- include "knowhub-ingress-gateway.labels" . | nindent 8 }}
+        {{- include "knowhub-cert-issuer.labels" . | nindent 8 }}
 spec:
-    commonName: "{{ include "knowhub-ingress-gateway.domain" . }}"
+    commonName: "*.{{ .Values.global.domain }}"
     dnsNames:
-        - "{{ include "knowhub-ingress-gateway.domain" . }}"
+        - "{{ .Values.global.domain }}"
+        - "*.{{ .Values.global.domain }}"
     issuerRef:
         kind: ClusterIssuer
-        name: {{ include "knowhub-ingress-gateway.certIssuerName" . }}
+        name: {{ include "knowhub-cert-issuer.certIssuerName" . }}
     secretName: istio-ingressgateway-certs
