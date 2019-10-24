@@ -1,0 +1,28 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+    name: {{ include "knowhub.istioGatewayName" . }}
+    labels:
+        {{- include "knowhub.labels" . | nindent 8 }}
+spec:
+    selector:
+        istio: ingressgateway
+    servers:
+        - hosts:
+              {{- include "knowhub.hosts" . | nindent 14 }}
+          port:
+              name: http
+              number: 80
+              protocol: HTTP
+          tls:
+              httpsRedirect: true
+        - hosts:
+              {{- include "knowhub.hosts" . | nindent 14 }}
+          port:
+              name: https
+              number: 443
+              protocol: HTTPS
+          tls:
+              mode: SIMPLE
+              privateKey: /etc/istio/ingressgateway-certs/tls.key
+              serverCertificate: /etc/istio/ingressgateway-certs/tls.crt

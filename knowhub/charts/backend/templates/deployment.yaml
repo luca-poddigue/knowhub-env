@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: {{ include "knowhub.name" . }}
+    name: {{ include "backend.name" . }}
     labels:
-        {{- include "knowhub.labels" . | nindent 8 }}
+        {{- include "backend.labels" . | nindent 8 }}
 spec:
     replicas: {{ .Values.replicaCount }}
     selector:
         matchLabels:
-            {{- include "knowhub.matchLabels" . | nindent 12 }}
+            {{- include "backend.matchLabels" . | nindent 12 }}
     template:
         metadata:
             labels:
-                {{- include "knowhub.matchLabels" . | nindent 16 }}
+                {{- include "backend.matchLabels" . | nindent 16 }}
         spec:
             volumes:
                 - name: secret-nginx
                   secret:
-                      secretName: {{ include "knowhub.name" . }}-nginx
+                      secretName: {{ include "backend.name" . }}-nginx
             containers:
                 - name: {{ .Chart.Name }}
                   image: "eu.gcr.io/knowhub-new/quarkus-tutorial:{{ .Values.imageTag }}"
@@ -43,7 +43,7 @@ spec:
                   args: [
                       "--ssl_port", "{{ .Values.service.port}}",
                       "--backend", "127.0.0.1:{{ .Values.service.backendPort}}",
-                      "--service", "app.endpoints.{{ .Values.global.projectId}}.cloud.goog",
+                      "--service", "app.endpoints.{{ .Values.global.clusterProjectId}}.cloud.goog",
                       "--rollout_strategy", "managed"
                   ]
                   ports:

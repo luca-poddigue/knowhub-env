@@ -1,18 +1,27 @@
 {{/* vim: set filetype=mustache: */}}
 
-{{- define "knowhub.certIssuerName" -}}
-{{- printf "%s-%s" .Release.Name "cert-issuer" | trunc 63 | trimSuffix "-" | quote -}}
-{{- end -}}
-
-{{- define "knowhub.dnsName" -}}
-{{- printf "%s%s" "*." .Values.dnsName | quote -}}
-{{- end -}}
-
 {{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "knowhub.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" | quote -}}
+{{- end -}}
+
+{{- define "knowhub.istioGatewayName" -}}
+{{- printf "%s-%s" .Release.Name "istio-gateway" | trunc 63 | trimSuffix "-" | quote -}}
+{{- end -}}
+
+{{- define "knowhub.hosts" -}}
+- {{ include "knowhub.host" . }}
+- www.{{ include "knowhub.host" . }}
+{{- end -}}
+
+{{- define "knowhub.host" -}}
+{{- if .Values.global.envName -}}
+{{- printf "%s.%s" .Values.global.envName .Values.global.domain -}}
+{{- else -}}
+{{- .Values.global.domain -}}
+{{- end -}}
 {{- end -}}
 
 {{/*

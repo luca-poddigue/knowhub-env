@@ -1,0 +1,5 @@
+global:
+  projectId: "knowhub-new"
+  domain: 'knowhub-test.com'
+
+acmeRegistrationEmail: 'luca.poddigue@knowhub.it'
