@@ -24,7 +24,7 @@ steps:
         helm init --client-only && \
         cd knowhub && \
         helm lint . -f envConfiguration/${_ENV}.yaml && \
-
+        helm lint charts/* -f envConfiguration/${_ENV}.yaml && \
         helm upgrade knowhub-${_ENV} . --install --namespace knowhub-${_ENV} -f envConfiguration/${_ENV}.yaml --debug --dry-run --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem > log.out
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
