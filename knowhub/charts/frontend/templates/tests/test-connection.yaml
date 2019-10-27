@@ -5,7 +5,9 @@ metadata:
     labels:
         {{- include "frontend.labels" . | nindent 8 }}
     annotations:
-        "helm.sh/hook": test-success
+        "helm.sh/hook": "test-success"
+        # for now it's ok to disable it, but when strict tls will be enabled this may not work anymore
+        "sidecar.istio.io/inject": "false"
 spec:
     containers:
         - name: wget
