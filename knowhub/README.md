@@ -17,11 +17,11 @@ Set a regional static IP for Istio ingress gateway. These steps may have already
 
 * In the zones menu, enable DNSSEC for the new zone and follow the instructions to set required params to the domain registrar.
 
-* Add DNS records to point the domain to the ingress gateway IP.
-For dev envs set:
+* \[DEV/TEST ENV ONLY] Add DNS records to point the domain to the ingress gateway IP.
   * `<<envName>>.<<domain>>`
-For prod env set:
-  * <<domain>>`
+
+* \[PROD ENV ONLY] Add DNS records to point the domain to the ingress gateway IP.
+  * `<<domain>>`
   * `www.<<domain>>`
 
 ## Namespace setup
