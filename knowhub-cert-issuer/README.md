@@ -16,5 +16,8 @@ Install [cert manager](https://docs.cert-manager.io/en/latest/getting-started/in
 Other details [here](https://cert-manager.readthedocs.io/en/latest/tasks/issuers/setup-acme/dns01/google.html).
 
 ## Installation
-`helm install --name knowhub-cert-issuer --tls .`
+`helm install --name knowhub-cert-issuer --tls -f clusterConfiguration/<<clusterType>>.yaml .`
 Note that the namespace is not declared on purpose.
+
+## Upgrade
+`helm upgrade knowhub-cert-issuer --tls -f clusterConfiguration/<<clusterType>>.yaml .`

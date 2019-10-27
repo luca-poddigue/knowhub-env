@@ -6,9 +6,9 @@ metadata:
         {{- include "frontend.labels" . | nindent 8 }}
 spec:
     hosts:
-        {{- include "knowhub.hosts" . | nindent 8 }}
+        {{- tpl .Values.global.hosts $ | nindent 8 }}
     gateways:
-        - {{ include "knowhub.istioGatewayName" . }}
+        - "{{.Release.Name}}-istio-gateway"
     http:
         - route:
               - destination:

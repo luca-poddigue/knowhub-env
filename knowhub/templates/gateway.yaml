@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-    name: {{ include "knowhub.istioGatewayName" . }}
+    name: "{{.Release.Name}}-istio-gateway"
     labels:
         {{- include "knowhub.labels" . | nindent 8 }}
 spec:
@@ -9,7 +9,7 @@ spec:
         istio: ingressgateway
     servers:
         - hosts:
-              {{- include "knowhub.hosts" . | nindent 14 }}
+                {{- tpl .Values.global.hosts $ | nindent 16 }}
           port:
               name: http
               number: 80
@@ -17,7 +17,7 @@ spec:
           tls:
               httpsRedirect: true
         - hosts:
-              {{- include "knowhub.hosts" . | nindent 14 }}
+                {{- tpl .Values.global.hosts $ | nindent 16 }}
           port:
               name: https
               number: 443

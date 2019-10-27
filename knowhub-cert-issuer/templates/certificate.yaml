@@ -6,10 +6,9 @@ metadata:
     labels:
         {{- include "knowhub-cert-issuer.labels" . | nindent 8 }}
 spec:
-    commonName: "*.{{ .Values.global.domain }}"
+    commonName: "{{ tpl .Values.certCommonName $ }}"
     dnsNames:
-        - "{{ .Values.global.domain }}"
-        - "*.{{ .Values.global.domain }}"
+         {{- tpl .Values.certDnsNames $ | nindent 8 }}
     issuerRef:
         kind: ClusterIssuer
         name: {{ include "knowhub-cert-issuer.certIssuerName" . }}

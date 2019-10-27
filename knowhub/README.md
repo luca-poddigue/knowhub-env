@@ -7,7 +7,9 @@ Install [Helm](https://medium.com/google-cloud/install-secure-helm-in-gke-254d52
 ### Gateway static IP
 Set a regional static IP for Istio ingress gateway. These steps may have already been performed if this is not the first env to be deployed on the cluster.
 
-* Find the external IP of the ingress gateway: `k get svc -n istio-system -l istio=ingressgateway`
+* Find the external IP of the ingress gateway:  
+`k get svc -n istio-system -l istio=ingressgateway`
+
 * Go to VPC Network -> External IP addresses, find the ingress gateway IP and set it static.
 
 ### DNS routes
@@ -15,9 +17,12 @@ Set a regional static IP for Istio ingress gateway. These steps may have already
 
 * In the zones menu, enable DNSSEC for the new zone and follow the instructions to set required params to the domain registrar.
 
-* Add two DNS records to point the domain to the ingress gateway IP:
-  * <<envName>>.<<domain>>
-  * www.<<envName>>.<<domain>>
+* Add DNS records to point the domain to the ingress gateway IP.
+For dev envs set:
+  * `<<envName>>.<<domain>>`
+For prod env set:
+  * <<domain>>`
+  * `www.<<domain>>`
 
 ## Namespace setup
 * Create a namespace named knowhub-<<envName>>.

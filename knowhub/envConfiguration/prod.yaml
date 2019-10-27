@@ -1,0 +1,8 @@
+global:
+  clusterProjectId: "knowhub-prod"
+  projectId: "knowhub-prod"
+  domain: "knowhub.it"
+
+  hosts: |
+    - "{{ .Values.global.domain }}"
+    - "www.{{ .Values.global.domain }}"

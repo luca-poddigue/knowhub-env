@@ -17,7 +17,7 @@ Common labels
 */}}
 {{- define "backend.labels" -}}
 {{ include "backend.matchLabels" . }}
-helm.sh/chart: {{ include "knowhub.chart" . }}
+helm.sh/chart: {{ printf "%s-%s" .Chart.Name .Chart.Version | quote }}
 app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
