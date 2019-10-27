@@ -1,0 +1,7 @@
+global:
+  clusterProjectId: "endless-tractor-248005"
+  projectId: "knowhub-new"
+  domain: "knowhub-test.com"
+
+  hosts: |
+    - "test.{{ .Values.global.domain }}"

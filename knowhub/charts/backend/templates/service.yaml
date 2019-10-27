@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-    name: {{ include "knowhub.name" . }}
+    name: {{ include "backend.name" . }}
     labels:
-        {{- include "knowhub.labels" . | nindent 8 }}
+        {{- include "backend.labels" . | nindent 8 }}
 spec:
     type: {{ .Values.service.type }}
     ports:
@@ -11,4 +11,4 @@ spec:
           protocol: TCP
           name: https
     selector:
-        {{- include "knowhub.matchLabels" . | nindent 8 }}
+        {{- include "backend.matchLabels" . | nindent 8 }}

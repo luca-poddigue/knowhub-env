@@ -1,5 +1,6 @@
 substitutions:
   _HELM_VERSION: 2.14.3
+  _ENV: test
 steps:
   - id: 'Decrypt Helm SSH keys'
     name: 'gcr.io/cloud-builders/gcloud'
@@ -22,9 +23,9 @@ steps:
         mv /builder/linux-amd64/helm /usr/local/bin/helm
         helm init --client-only && \
         cd knowhub && \
-        helm lint . && \
-        helm lint charts/* -f values.yaml && \
-        helm upgrade knowhub . --install --namespace knowhub --debug --dry-run --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem > log.out
+        helm lint . -f envConfiguration/${_ENV}.yaml && \
+        helm lint charts/* -f envConfiguration/${_ENV}.yaml && \
+        helm upgrade knowhub-${_ENV} . --install --namespace knowhub-${_ENV} -f envConfiguration/${_ENV}.yaml --debug --dry-run --tls --tls-ca-cert ../.helm/ca.pem --tls-cert ../.helm/cert.pem --tls-key ../.helm/key.pem > log.out
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1-b'
       - 'CLOUDSDK_CONTAINER_CLUSTER=knowhub'

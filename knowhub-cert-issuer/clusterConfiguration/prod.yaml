@@ -1,0 +1,8 @@
+projectId: "knowhub-prod"
+domain: 'knowhub.it'
+acmeRegistrationEmail: 'luca.poddigue@knowhub.it'
+
+certCommonName: "{{ .Values.domain }}"
+certDnsNames: |
+  - "{{ .Values.domain }}"
+  - "www.{{ .Values.domain }}"

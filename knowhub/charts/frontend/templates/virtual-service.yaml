@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+    name: {{ include "frontend.name" . }}
+    labels:
+        {{- include "frontend.labels" . | nindent 8 }}
+spec:
+    hosts:
+        {{- tpl .Values.global.hosts $ | nindent 8 }}
+    gateways:
+        - "{{.Release.Name}}-istio-gateway"
+    http:
+        - route:
+              - destination:
+                    host: {{ include "frontend.name" . }}
+                    port:
+                        number: {{ .Values.service.port }}

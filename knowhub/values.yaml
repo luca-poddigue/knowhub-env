@@ -1,2 +1,9 @@
+# Example configuration file: always override with a specific env configuration file!
+
 global:
-  projectId: "endless-tractor-248005"
+  clusterProjectId: "endless-tractor-248005"
+  projectId: "knowhub-new"
+  domain: "knowhub-test.com"
+
+  hosts: |
+    - "test.{{ .Values.global.domain }}"

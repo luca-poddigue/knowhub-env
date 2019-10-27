@@ -1,37 +1,43 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: {{ include "knowhub.name" . }}
+    name: {{ include "frontend.name" . }}
     labels:
-        {{- include "knowhub.labels" . | nindent 8 }}
+        {{- include "frontend.labels" . | nindent 8 }}
 spec:
     replicas: {{ .Values.replicaCount }}
     selector:
         matchLabels:
-        {{- include "knowhub.matchLabels" . | nindent 12 }}
+        {{- include "frontend.matchLabels" . | nindent 12 }}
     template:
         metadata:
             labels:
-            {{- include "knowhub.matchLabels" . | nindent 16 }}
+            {{- include "frontend.matchLabels" . | nindent 16 }}
         spec:
+            volumes:
+                - name: cache
+                  emptyDir: {}
+                - name: run
+                  emptyDir: {}
+                - name: temp
+                  emptyDir: {}
             containers:
                 - name: {{ .Chart.Name }}
                   image: "eu.gcr.io/knowhub-new/knowhub-frontend:{{ .Values.imageTag }}"
                   imagePullPolicy: IfNotPresent
                   ports:
-                      - name: http
-                        containerPort: {{ .Values.service.port }}
+                      - containerPort: {{ .Values.service.containerPort }}
                         protocol: TCP
                   livenessProbe:
                       httpGet:
                           path: /health
-                          port: http
+                          port: {{ .Values.service.containerPort }}
                       initialDelaySeconds: 30
                   readinessProbe:
                       httpGet:
                           path: /health
-                          port: http
+                          port: {{ .Values.service.containerPort }}
                         {{- with .Values.resources }}
                   resources:
-                        {{- toYaml .Values.resources | nindent 24 }}
+            {{- toYaml .Values.resources | nindent 24 }}
         {{- end }}

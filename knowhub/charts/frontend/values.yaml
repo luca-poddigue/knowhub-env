@@ -1,24 +1,11 @@
 name: "frontend"
-imageTag: 71ce1c1
+imageTag: 4ec54b3
 
 replicaCount: 1
 service:
-  type: LoadBalancer
-  port: 80
-
-ingress:
-  enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths: []
-
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  type: NodePort
+  port: 8000
+  containerPort: 80
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
