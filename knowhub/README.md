@@ -35,3 +35,6 @@ Set a regional static IP for Istio ingress gateway. These steps may have already
 
 ## Upgrade
 `helm upgrade knowhub-<<envName>> --tls -f envConfiguration/<<envName>>.yaml .`
+
+## CDN
+Enable Cloud CDN on the cluster project as detailed [here](https://cloud.google.com/cdn/docs/using-cdn).

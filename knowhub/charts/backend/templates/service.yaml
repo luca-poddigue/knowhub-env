@@ -10,5 +10,6 @@ spec:
         - port: {{ .Values.service.port }}
           protocol: TCP
           name: https
+          nodePort: null
     selector:
         {{- include "backend.matchLabels" . | nindent 8 }}
