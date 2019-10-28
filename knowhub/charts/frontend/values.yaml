@@ -3,7 +3,7 @@ imageTag: "e5325af"
 
 replicaCount: 1
 service:
-  type: NodePort
+  type: ClusterIP
   port: 8000
   containerPort: 80
 
