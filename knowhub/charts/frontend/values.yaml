@@ -1,5 +1,5 @@
 name: "frontend"
-imageTag: "4318859"
+imageTag: "77eed29"
 
 replicaCount: 1
 service:
